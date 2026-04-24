@@ -1,0 +1,91 @@
+:root {
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --bg: #f3f4f6;
+  --panel: #ffffff;
+  /* Nested boxes inside a white section. */
+  --panel-2: #f2f2f2;
+  --border: #e7e5e4;
+  --input-bg: #ffffff;
+  --accent: #4fabff;
+  --accent-hover: #2f97f0;
+  --chart-1: #4fabff;
+  --chart-2: #2f97f0;
+  --chart-3: #93cfff;
+  --chart-hover: rgba(79, 171, 255, 0.14);
+  --danger: #b91c1c;
+  --warn-bg: #fff7ed;
+  --warn-text: #9a3412;
+  --input-radius: 8px;
+  --input-pad-y: 0.5rem;
+  --input-pad-x: 0.65rem;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #fafaf9;
+    --text-muted: #a8a29e;
+    --bg: #0c0a09;
+    --panel: #1c1917;
+    --panel-2: #292524;
+    --border: #44403c;
+    --input-bg: #1c1917;
+    --accent: #4fabff;
+    --accent-hover: #7ab8ff;
+    --chart-1: #4fabff;
+    --chart-2: #7ab8ff;
+    --chart-3: #5a9fd9;
+    --chart-hover: rgba(79, 171, 255, 0.18);
+    --danger: #fca5a5;
+    --warn-bg: #422006;
+    --warn-text: #fdba74;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+}
+
+#root {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-optical-sizing: auto;
+}
+
+/* Recharts and other inline SVGs do not inherit document font by default. */
+svg text {
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text);
+}
