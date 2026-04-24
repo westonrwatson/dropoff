@@ -31,6 +31,10 @@ import { APP_ACCENT_HEX, normalizeHex } from './lib/chartAccent'
 import { loadWorkspace, saveWorkspace, type WorkspaceSnapshot } from './lib/persistence'
 import { richTextToPlain } from './lib/richText'
 import { createDefaultTab } from './lib/tabDefaults'
+import {
+  buildFlowFromReviewQuestions,
+  parseHaldaReviewDocx,
+} from './lib/reviewDocx'
 import type { AnalysisTab, ParsedDataset, TabCollapsedPanels } from './types'
 import { CollapsibleSection } from './components/CollapsibleSection'
 import { SchoolNameHeader } from './components/SchoolNameHeader'
@@ -311,8 +315,6 @@ export default function App() {
         return
       }
       try {
-        const { parseHaldaReviewDocx, buildFlowFromReviewQuestions } =
-          await import('./lib/reviewDocx')
         const questions = await parseHaldaReviewDocx(file)
         const steps = buildFlowFromReviewQuestions(
           questions,
@@ -334,7 +336,9 @@ export default function App() {
                   reviewDocName: file.name,
                   collapsedPanels: {
                     ...(t.collapsedPanels ?? {}),
-                    csv: true,
+                    // Keep CSV/Doc open: CollapsibleSection unmounts children when collapsed, which
+                    // removed the file input / drop zone and made re-upload look "broken".
+                    csv: false,
                     flow: false,
                   },
                 }
