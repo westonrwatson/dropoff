@@ -1,5 +1,7 @@
-# Build Vite to static files and deploy to GitHub Pages (serves /dropoff/ not raw source).
-name: Deploy GitHub Pages
+# Pushes the Vite `dist` folder to the `gh-pages` branch. In repo Settings → Pages, set
+# "Deploy from a branch" → branch: gh-pages, folder: / (root). That serves the *built*
+# app, not the dev index.html on main.
+name: Build and deploy to gh-pages
 
 on:
   push:
@@ -7,16 +9,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: gh-pages-deploy
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,24 +24,12 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-      - name: Install
-        run: npm ci
-      - name: Build
+      - run: npm ci
+      - name: Build (subpath for project page)
         run: npm run build -- --base=/${{ github.event.repository.name }}/
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload
-        uses: actions/upload-pages-artifact@v3
+      - name: Push dist to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - name: Deploy
-        id: deploy
-        uses: actions/deploy-pages@v4
+          folder: dist
+          branch: gh-pages
+          clean: true
